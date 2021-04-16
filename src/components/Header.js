@@ -13,16 +13,15 @@ export const Header = (props) => {
 
 const styles = StyleSheet.create({
   header: {
-    height: 60,
-    marginTop: 50,
-    marginLeft: 110,
+    height: 30,
+    marginTop: 40,
+    marginLeft: 150,
     textAlign: "center",
-    justifyContent: "flex-start",
     backgroundColor: "transparent",
   },
   headerText: {
     fontFamily:'Gill Sans',
-    fontSize: 40,
+    fontSize: 30,
     color: 'powderblue',
   },
 });
