@@ -14,8 +14,11 @@ import { Entypo } from "@expo/vector-icons";
 import { styles as GlobalStyles } from "./utils/styles";
 import { Header } from "./components/Header";
 import MailList from "./components/Inbox/Maillist";
+import AccountContext from './utils/AccountContext'
 
 export default class Inbox extends React.Component {
+  static contextType = AccountContext;
+
   constructor(props) {
     super(props);
 
@@ -49,7 +52,6 @@ export default class Inbox extends React.Component {
     return (
       <View>
         <Header title="NJIT Inbox" />
-
         <View style={styles.maillistWrp}>
           <View>
 
@@ -90,7 +92,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   buttonText: {
-    fontFamily: "Gill Sans",
+    fontFamily: "Roboto",
     fontSize: 17,
     alignItems: "center",
     justifyContent: "center",
