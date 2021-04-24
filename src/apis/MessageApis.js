@@ -3,12 +3,12 @@ import React from "react";
 import base64 from 'react-native-base64'
 
 export async function readGmailList(token, limit, pageToken) {
-    var max = limit == 0 ? '' : 'maxResults=' + limit;
-    var queryString = '?labelIds=INBOX';
+    var max = limit == 0 ? '' : 'maxResults=' + limit; //Append the limit to the query string only if there is defined limit
+    var queryString = '?labelIds=INBOX'; //Set initial query string - Filtering only to INBOX
     if(max !== '') {
         queryString += '&' +  max;
     }
-    if(pageToken != '') {
+    if(pageToken != '') { //Utilize page token.
         queryString += '&pageToken=' + pageToken;
     }
     var messageListResponse;
@@ -40,14 +40,21 @@ export async function readGmailList(token, limit, pageToken) {
                 from: from.length > 0 ? from[0].value : '',
                 subject: subject.length > 0 ? subject[0].value : '',
                 time: time[0].value,
-                plainText: response.snippet
+                plainText: response.snippet //Using snippet for email text. This will usually take most of an email message for basic messages. 
             };
         }).catch((error) => {
-            //console.error(error);
+            console.error(error);
         });
         emails.push(email);
     }
 
     return emails;
+}
 
+export async function sendBasicEmail(account, to, subject, content) {
+    var fromLine = 'From: <' + account.email + '>';
+    var toLine = 'To: <' + to + '>';
+    var subjectLine = 'Subject: '+ subject;
+    var preencodedEmail = fromLine + '\n' + toLine + '\n' + subjectLine + '\n\n' + content;
+     
 }

@@ -49,6 +49,8 @@ export default class Inbox extends React.Component {
   }
 
   render() {
+    //Check that the mail list has been initialized and pass it to the Mail List component when ready. 
+    const mailList = Array.isArray(this.context.account.emailList) ? this.context.account.emailList : [] ;
     return (
       <View>
         <Header title="NJIT Inbox" />
@@ -63,7 +65,7 @@ export default class Inbox extends React.Component {
             </TouchableOpacity>
           </View>
           <ScrollView>
-            <MailList maillist={this.state.maillist} />
+            <MailList maillist={mailList} />
           </ScrollView>
         </View>
 

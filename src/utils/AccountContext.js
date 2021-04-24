@@ -1,4 +1,6 @@
 import React from 'react';
+import { readGmailList } from '../apis/MessageApis'
+
 
 const AccountContext = React.createContext(); //Used to store the Account Information
 
@@ -8,7 +10,9 @@ export const AccountProvider =  ({ children }) => {
         name: '',
         email: '',
         accessToken: '',
-        picture: ''
+        picture: '',
+        authenticated: false,
+        emailList: []
     });
     return (
         <AccountContext.Provider value={{ account, setAccount }}>
