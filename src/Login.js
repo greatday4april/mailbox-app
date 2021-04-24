@@ -4,12 +4,15 @@ import * as Google from 'expo-auth-session/providers/google';
 import AccountContext, { AccountProvider } from './utils/AccountContext'
 import { useNavigation } from '@react-navigation/native';
 import {  Dimensions, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { readGmailList } from './apis/MessageApis'
+
 
 export default function Login(props) {
   WebBrowser.maybeCompleteAuthSession(); //Allows browser prompt to close and switch back to app instance. 
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: '808192904700-b3aho25fe46surper1rv57h1c9gujl5i.apps.googleusercontent.com',
+    webClientId: '808192904700-b3aho25fe46surper1rv57h1c9gujl5i.apps.googleusercontent.com',
     androidClientId: '808192904700-c4b7ilrhkmtogosb87oo6q8nd7hm5jb4.apps.googleusercontent.com',
     scopes: ['email', 'profile', 'openid', 'https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/gmail.compose', 'https://www.googleapis.com/auth/gmail.readonly']
   });  
@@ -22,18 +25,24 @@ export default function Login(props) {
       fetch("https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + response.authentication.accessToken)
       .then(res => res.json())
       .then(
-        (result) => {
+        async (result) => {
+            var emailList = await readGmailList(response.authentication.accessToken, 15 ,''); //Setting to 15 for testing. 
             setAccount(
               {
                 name: result.name,
                 email: result.email,
                 accessToken: response.authentication.accessToken,
-                picture: result.picture
+                picture: result.picture,
+                authenticated: true,
+                emailList: emailList
               }
-            );
+            );            
+            return emailList;
         }
-      );
-      props.navigation.navigate("Inbox"); //Navigate to Inbox
+      ).then(() => {
+        props.navigation.navigate("Inbox"); //Navigate to Inbox
+      });
+      
     }
   }, [response]);
 
