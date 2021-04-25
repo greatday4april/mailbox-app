@@ -6,13 +6,14 @@ import React from "react";
 
 const MailList = (props) => {
   let maillist = <Text style={styles.noMail}>No Mails Coming In Yet</Text>;
-  if (props.maillist.length) {    
+  if (props.maillist.length) {
     maillist = props.maillist.map((item, i) => {
       return (
         <Mail
           key={i}
           index={i}
-          title={item.subject}
+          item={item}
+          navigation={props.navigation}
         />
       );
     });

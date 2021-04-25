@@ -1,14 +1,21 @@
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import React from "react";
 
 const Mail = (props) => {
-
   return (
-    <View style={styles.mailContainer}>
-      <Text style={styles.mailTitle}>{props.title}</Text>
-    </View>
+    <TouchableOpacity
+      onPress={() => {
+        props.navigation.navigate("MailView", {
+          item: props.item,
+        });
+      }}
+    >
+      <View style={styles.mailContainer}>
+        <Text style={styles.mailTitle}>{props.item.subject}</Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 

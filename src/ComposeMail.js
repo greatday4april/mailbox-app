@@ -1,8 +1,6 @@
 import * as MailComposer from 'expo-mail-composer';
 
 import { Button, Icon } from 'react-native-elements';
-
-import React from "react";
 import {
   Dimensions,
   ImageBackground,
@@ -13,10 +11,15 @@ import {
   View,
 } from "react-native";
 
+import AccountContext from "./utils/AccountContext";
+import React from "react";
+import {sendBasicEmail} from "./apis/MessageApis";
+
 class ComposeMail extends React.Component {
+  static contextType = AccountContext;
   state = {
     email: "",
-    subject:"",
+    subject: "",
     body: "",
   };
   render() {
@@ -41,7 +44,6 @@ class ComposeMail extends React.Component {
           <TextInput
             value={this.state.body}
             multiline
-
             placeholder="body"
             placeholderTextColor="white"
             onChangeText={(body) => this.setState({ body })}
@@ -49,12 +51,16 @@ class ComposeMail extends React.Component {
             style={styles.bodyInput}
           />
         </View>
-        <View >
+        <View>
           <Button
             title=" Send Email"
-            buttonStyle={{ backgroundColor: "#7cc" , width:200, marginLeft:120}}
+            buttonStyle={{
+              backgroundColor: "#7cc",
+              width: 200,
+              marginLeft: 120,
+            }}
             icon={<Icon name="envelope-o" type="font-awesome" color="white" />}
-            onPress={this.sendMail}
+            onPress={() => {this.sendMail(this.context.account);}}
           />
         </View>
         <ImageBackground
@@ -66,13 +72,9 @@ class ComposeMail extends React.Component {
       </View>
     );
   }
-  sendMail() {
+  sendMail(account) {
     // TODO: replace MailComposer with our send mail logic
-    MailComposer.composeAsync({
-      recipients: ['april7film@gmail.com'],
-      subject: "hahah",
-      body: "hohoho",
-    });
+    sendBasicEmail(account, this.state.email, this.state.subject, this.state.body);
   }
 }
 

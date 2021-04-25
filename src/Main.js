@@ -6,15 +6,15 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  View,
   TouchableOpacity,
+  View,
 } from "react-native";
 
+import AccountContext from './utils/AccountContext'
 import { Entypo } from "@expo/vector-icons";
 import { styles as GlobalStyles } from "./utils/styles";
 import { Header } from "./components/Header";
 import MailList from "./components/Inbox/Maillist";
-import AccountContext from './utils/AccountContext'
 
 export default class Inbox extends React.Component {
   static contextType = AccountContext;
@@ -24,32 +24,15 @@ export default class Inbox extends React.Component {
 
     this.state = {
       loading: true,
-      maillist: [
-        "haha",
-        "heyhey",
-        "hoho",
-        "yayay",
-        "hihih",
-        "oooo",
-        "lalal",
-        "dududu",
-        "momomo",
-        "mimimi",
-        "yiyiyi",
-        "mimiyaya",
-      ], // placeholders, each one refer to each mail
     };
   }
 
   toCompose() {
-    const { email, password } = this.state;
-
     this.props.navigation.navigate("Compose");
-
   }
 
   render() {
-    //Check that the mail list has been initialized and pass it to the Mail List component when ready. 
+    //Check that the mail list has been initialized and pass it to the Mail List component when ready.
     const mailList = Array.isArray(this.context.account.emailList) ? this.context.account.emailList : [] ;
     return (
       <View>
@@ -65,7 +48,7 @@ export default class Inbox extends React.Component {
             </TouchableOpacity>
           </View>
           <ScrollView>
-            <MailList maillist={mailList} />
+            <MailList maillist={mailList} navigation={this.props.navigation} />
           </ScrollView>
         </View>
 
